@@ -143,10 +143,10 @@ return JSON.parse(cleanText);
 
 ## 👤 Author
 
-**[Your Name]**
+**[Oshiafi Joshua]**
 
 * [Portfolio Website](https://www.google.com/search?q=https://www.oshiafi-domain.win)
-* [LinkedIn](https://www.google.com/search?q=Your_LinkedIn_URL)
+* [LinkedIn](https://www.linkedin.com/in/joshiafi/)
 
 ```
 
