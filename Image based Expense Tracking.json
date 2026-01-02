@@ -1,0 +1,312 @@
+{
+  "name": "Image based Expense Tracking",
+  "nodes": [
+    {
+      "parameters": {
+        "downloadAttachments": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f4f171de-b021-4032-9ca0-b2b97b77a1d7",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "o4a7RIcH9U9x9VNt",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b9f7dc60-d705-4ba3-b37d-34719fe9aa04",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "=expense",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "87e2485f-c3a9-4c96-b3e7-4dbe81776a4e",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "receipt",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fa48606c-1f6a-4467-bd48-4a9632c96ad0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "You are a data extraction machine. Do not speak. Do not explain.\nExtract the receipt data and return ONLY a raw JSON object.\nNo markdown formatting (no ```json). No intro text.\n\n{\n  \"date\": \"YYYY-MM-DD\",\n  \"vendor\": \"Name of the store\",\n  \"total\": \"0.00 (number only)\",\n  \"category\": \"Food\",\n  \"summary\": \"Short description\"\n}"
+            },
+            {
+              "type": "image",
+              "imageType": "base64",
+              "binaryPropertyName": "attachment_0"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        -16
+      ],
+      "id": "f2e7d14e-4024-479a-bb6d-d09e766ade74",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "vwI1ruHftLnrJ6S9",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get the input\nconst item = $input.first().json;\n\n// 2. Drill down into the specific folder structure you shared:\n// output (Array) -> First Item [0] -> content (Array) -> First Item [0] -> text\nconst rawText = item.output[0].content[0].text;\n\n// 3. Clean the text (Remove ```json and ``` markers)\nconst cleanText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();\n\n// 4. Parse it into real data\nreturn JSON.parse(cleanText);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        -16
+      ],
+      "id": "da1a8774-5b39-4d8d-a317-528cf7511b6d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1g-re0sdoyYwmtzMg1j0kGO3YyE2olY_uJBb4eIEndNs",
+          "mode": "list",
+          "cachedResultName": "Expenses tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1g-re0sdoyYwmtzMg1j0kGO3YyE2olY_uJBb4eIEndNs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1g-re0sdoyYwmtzMg1j0kGO3YyE2olY_uJBb4eIEndNs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.date }}",
+            "Vendor": "={{ $json.vendor }}",
+            "Total": "={{ $json.total }}",
+            "Category": "={{ $json.category }}",
+            "Summary": "={{ $json.summary }}",
+            "Receipt Link": "={{ $('Email Trigger (IMAP)').item.json.metadata['message-id'] }}"
+          },
+          "matchingColumns": [
+            "Date"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Vendor",
+              "displayName": "Vendor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total",
+              "displayName": "Total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Receipt Link",
+              "displayName": "Receipt Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        976,
+        -16
+      ],
+      "id": "17dc6c00-43d9-457c-a9ca-fc29757dcc7e",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nOXxMJg8mHYvKgTM",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Message a model": [
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0a1a49f7af0bc7c3006956e67c328481948839e8653ef6fd00",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{\n  \"date\": \"2025-12-27\",\n  \"vendor\": \"PRINCE EBEANO\",\n  \"total\": \"2900.00\",\n  \"category\": \"Food\",\n  \"summary\": \"Meat pie, sugar dough, hot dog roll\"\n}"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "fba0687b-187b-4eca-8f39-6cfd30d3343f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dd5a9e7c59b8b07d1e2e2dc7cdc5c7e454a38c8a2d7519f658aa15ca2a061c15"
+  },
+  "id": "htncRcFDXK56YIng",
+  "tags": []
+}
