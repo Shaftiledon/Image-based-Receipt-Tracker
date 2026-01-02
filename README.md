@@ -7,7 +7,8 @@
 ## 🎥 Demo
 [**Watch the System in Action (Loom Video)**](PASTE_YOUR_LOOM_LINK_HERE)
 
-![Workflow Screenshot](Add_A_Screenshot_Of_Your_n8n_Workflow_Here.png)
+![Workflow Screenshot]<img width="1398" height="696" alt="Screenshot 2026-01-02 at 13 46 06" src="https://github.com/user-attachments/assets/68299c6d-7f7c-4e06-820e-4397471ff7db" />
+e.png)
 *(Screenshot of the n8n automation flow)*
 
 ---
