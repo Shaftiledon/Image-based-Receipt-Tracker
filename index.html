@@ -3,45 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joshua Oshiafi | Automation Engineer</title>
+    <title>Joshua's Automation Portfolio</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-        header { text-align: center; padding: 50px 0; }
-        h1 { margin-bottom: 10px; font-size: 2.5rem; }
-        .subtitle { color: #666; font-size: 1.2rem; }
-        .btn { display: inline-block; background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 10px; }
-        .project-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-top: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 20px 0; background: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        footer { text-align: center; margin-top: 50px; color: #888; font-size: 0.9rem; }
+        :root {
+            --primary: #2563eb; /* Blue */
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { color: #94a3b8; font-size: 1.2rem; margin-top: 1rem; }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive columns */
+            gap: 2rem;
+            margin-top: -3rem; /* Overlap effect */
+        }
+
+        /* Project Card */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .card-content { padding: 1.5rem; }
+
+        .tag-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: #e2e8f0;
+            color: #475569;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .btn:hover { background-color: #1d4ed8; }
+
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Joshua Oshiafi</h1>
-        <p class="subtitle">I build AI Automations that save businesses time & money.</p>
-        <a href="mailto:oshiafijoshua712@gmail.com" class="btn">Hire Me</a>
+        <h1>Joshua's Automation Portfolio</h1>
+        <p>Building autonomous agents that save businesses 20+ hours a week.</p>
     </header>
 
-    <div class="project-card">
-        <h2>Featured Project: AI Expense Tracker Agent</h2>
-        <p>An autonomous system that reads emails, extracts data from receipts using Computer Vision (GPT-4o), and updates a financial database automatically.</p>
-        
-        <div class="video-container">
-            <iframe src="https://www.loom.com/embed/YOUR_VIDEO_ID_HERE" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <div class="container">
+        <div class="project-grid">
+
+            <article class="card">
+                <div class="video-container">
+                    <iframe src="https://www.loom.com/embed/YOUR_LOOM_ID_HERE" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="tag-container">
+                        <span class="tag">n8n</span>
+                        <span class="tag">GPT-4o</span>
+                        <span class="tag">Slack API</span>
+                        <span class="tag">Airtable</span>
+                    </div>
+                    <h2>AI Autonomous SDR Agent</h2>
+                    <p>
+                        An autonomous agent that monitors CRM data, performs real-time web scraping and Google News analysis, and generates hyper-personalized cold outreach drafts. Features a "Human-in-the-Loop" Slack approval system.
+                    </p>
+                    <a href="https://github.com/YOUR_USERNAME/n8n-automated-sdr-agent" class="btn" target="_blank">View Code on GitHub</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="video-container">
+                    <iframe src="https://www.loom.com/embed/YOUR_OLD_LOOM_ID_HERE" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="tag-container">
+                        <span class="tag">Make.com</span>
+                        <span class="tag">OpenAI Vision</span>
+                        <span class="tag">Google Sheets</span>
+                    </div>
+                    <h2>AI Receipt Digitizer</h2>
+                    <p>
+                        A financial automation tool that uses Computer Vision to extract data from images of receipts and automatically categorizes expenses into a structured database. Eliminates manual data entry errors.
+                    </p>
+                    <a href="#" class="btn" target="_blank">View Project</a>
+                </div>
+            </article>
+
         </div>
-
-        <h3>Tech Stack</h3>
-        <p>⚡ n8n &nbsp; 🧠 OpenAI GPT-4o &nbsp; 📜 JavaScript &nbsp; 📊 Google Sheets API</p>
-        
-        <br>
-        <a href="https://github.com/Shaftiledon/Image-based-Receipt-Tracker" class="btn" style="background: #333;">View Code on GitHub</a>
     </div>
-
-    <footer>
-        <p>&copy; 2026 Joshua Oshiafi. Hosted on GitHub Pages.</p>
-    </footer>
 
 </body>
 </html>
